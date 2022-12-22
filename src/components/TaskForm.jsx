@@ -1,14 +1,21 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
+import { TaskContext } from "../context/TaskContext";
 
-function TaskForm({ createTask }) {
+function TaskForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 
+	const { createTask } = useContext(TaskContext);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		createTask(title, description);
-		setTitle("");
-		setDescription("");
+		if (title.length < 1 || description.length < 1) {
+			alert("No pueden estar los campos vacios");
+		} else {
+			createTask(title, description);
+			setTitle("");
+			setDescription("");
+		}
 	};
 
 	const inputTask = useCallback((inputElement) => {
